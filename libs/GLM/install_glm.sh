@@ -42,7 +42,7 @@ Cflags: -I${INCLUDEDIR}
 "
 
 OUTPUT_FILE="$LIBDIR/pkgconfig/glm.pc"
-sudo cho "$PKG_CONFIG_CONTENT" > "$OUTPUT_FILE"
+sudo echo "$PKG_CONFIG_CONTENT" > "$OUTPUT_FILE"
 
 
 # Example of Installing
