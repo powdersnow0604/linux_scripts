@@ -37,12 +37,18 @@ includedir=${INCLUDEDIR}
 Name: glm
 Description: OpenGL Mathematics (GLM)
 Version: $version
-Libs: -L${LIBDIR} -lmylibrary
+Libs: -L${LIBDIR} -lglm
 Cflags: -I${INCLUDEDIR}
 "
 
 OUTPUT_FILE="$LIBDIR/pkgconfig/glm.pc"
-sudo echo "$PKG_CONFIG_CONTENT" > "$OUTPUT_FILE"
+if [ ! -f "$OUTPUT_FILE" ]; then
+        echo "Create $OUTPUT_FILE"
+        sudo touch $OUTPUT_FILE
+        sudo chmod +w $OUTPUT_FILE
+fi
+# sudo echo "$PKG_CONFIG_CONTENT" > "$OUTPUT_FILE"
+echo "$PKG_CONFIG_CONTENT" | sudo tee "$OUTPUT_FILE" > /dev/null
 
 
 # Example of Installing

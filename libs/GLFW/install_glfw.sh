@@ -1,5 +1,5 @@
 # Prerequisite
-sudo apt install libwayland-dev libxkbcommon-dev xorg-dev
+sudo apt -y install libwayland-dev libxkbcommon-dev xorg-dev
 #sudo apt install unzip
 
 # Variables

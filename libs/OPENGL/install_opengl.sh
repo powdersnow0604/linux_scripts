@@ -1,1 +1,1 @@
-sudo apt install -y libgl1-mesa-dev 
+sudo apt install -y libgl1-mesa-dev mesa-utils
