@@ -22,9 +22,6 @@ source glad_env/bin/activate
 pip install git+https://github.com/ValtoLibraries/GLAD.git
 glad --generator c --out-path glad/ --api gl=$VERSION --extensions "" --profile core
 
-# Remove
-rm -rf glad_env
-
 # Install
 SRC_DIR=$(pwd)/glad
 echo "src_dir: $SRC_DIR"
@@ -33,3 +30,8 @@ cd build
 cmake $PARENT_DIR -DCMAKE_INSTALL_DATAROOTDIR=lib/cmake -DDIR=$SRC_DIR
 cmake --build .
 sudo cmake --install .
+
+# Remove
+rm -rf glad_env
+rm -rf build
+rm -rf glad

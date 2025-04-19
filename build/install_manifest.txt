@@ -1,7 +1,0 @@
-/usr/local/lib/libglad.so
-/usr/local/include/glad/glad.h
-/usr/local/include/KHR/khrplatform.h
-/usr/local/lib/cmake/glad/gladTargets.cmake
-/usr/local/lib/cmake/glad/gladTargets-noconfig.cmake
-/usr/local/lib/cmake/glad/gladConfig.cmake
-/usr/local/lib/pkgconfig/glad.pc
