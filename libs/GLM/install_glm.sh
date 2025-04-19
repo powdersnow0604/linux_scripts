@@ -2,14 +2,19 @@
 #sudo apt install unzip
 
 # Variables
-version=1.0.1
+# Default version
+DEFAULT_VERSION=1.0.1
+# Use provided version or default
+VERSION=${1:-$DEFAULT_VERSION}
+
+echo "Installing GLM version: $VERSION"
 
 # Download
-wget -O glm.zip https://github.com/g-truc/glm/archive/refs/tags/$version.zip
+wget -O glm.zip https://github.com/g-truc/glm/archive/refs/tags/$VERSION.zip
 unzip glm.zip
 
 # cmake
-cd glm-$version
+cd glm-$VERSION
 cmake \
     -DGLM_BUILD_TESTS=OFF \
     -DBUILD_SHARED_LIBS=ON \
@@ -20,7 +25,7 @@ sudo cmake --build build -- install
 
 #remove
 cd ..
-rm -rf glm-$version
+rm -rf glm-$VERSION
 rm glm.zip
 
 # Wrting pkg-config file
@@ -36,7 +41,7 @@ includedir=${INCLUDEDIR}
 
 Name: glm
 Description: OpenGL Mathematics (GLM)
-Version: $version
+Version: $VERSION
 Libs: -L${LIBDIR} -lglm
 Cflags: -I${INCLUDEDIR}
 "

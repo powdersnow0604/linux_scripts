@@ -2,14 +2,19 @@
 #sudo apt install unzip
 
 # Variables
-version=3.12.0
+# Default version
+DEFAULT_VERSION=3.12.0
+# Use provided version or default
+VERSION=${1:-$DEFAULT_VERSION}
+
+echo "Installing JSON version: $VERSION"
 
 # Download
-wget -O json.zip https://github.com/nlohmann/json/archive/refs/tags/v$version.zip
+wget -O json.zip https://github.com/nlohmann/json/archive/refs/tags/v$VERSION.zip
 unzip json.zip
 
 # cmake
-cd json-$version
+cd json-$VERSION
 mkdir build
 cd build
 cmake \
@@ -28,7 +33,7 @@ sudo mv $INSTALL_PREFIX/include/nlohmann $INSTALL_PREFIX/include/json
 
 #remove
 cd ../..
-rm -rf json-$version
+rm -rf json-$VERSION
 rm json.zip
 
 

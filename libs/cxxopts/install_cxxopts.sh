@@ -2,14 +2,19 @@
 #sudo apt install unzip
 
 # Variables
-version=3.2.0
+# Default version
+DEFAULT_VERSION=3.2.0
+# Use provided version or default
+VERSION=${1:-$DEFAULT_VERSION}
+
+echo "Installing cxxopts version: $VERSION"
 
 # Download
-wget -O cxxopts.zip https://github.com/jarro2783/cxxopts/archive/refs/tags/v$version.zip
+wget -O cxxopts.zip https://github.com/jarro2783/cxxopts/archive/refs/tags/v$VERSION.zip
 unzip cxxopts.zip
 
 # cmake
-cd cxxopts-$version
+cd cxxopts-$VERSION
 mkdir build
 cd build
 cmake \
@@ -25,7 +30,7 @@ sudo make install
 
 #remove
 cd ../..
-rm -rf cxxopts-$version
+rm -rf cxxopts-$VERSION
 rm cxxopts.zip
 
 

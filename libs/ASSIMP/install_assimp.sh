@@ -2,14 +2,19 @@
 #sudo apt install unzip
 
 # Variables
-version=5.4.3
+# Default version
+DEFAULT_VERSION=5.4.3
+# Use provided version or default
+VERSION=${1:-$DEFAULT_VERSION}
+
+echo "Installing ASSIMP version: $VERSION"
 
 # Download
-wget -O assimp.zip https://github.com/assimp/assimp/archive/refs/tags/v$version.zip
+wget -O assimp.zip https://github.com/assimp/assimp/archive/refs/tags/v$VERSION.zip
 unzip assimp.zip
 
 # cmake
-cd assimp-$version
+cd assimp-$VERSION
 mkdir build
 cd build
 cmake \
@@ -27,7 +32,7 @@ sudo make install
 
 #remove
 cd ../..
-rm -rf assimp-$version
+rm -rf assimp-$VERSION
 rm assimp.zip
 
 

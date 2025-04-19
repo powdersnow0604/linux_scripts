@@ -3,14 +3,19 @@ sudo apt -y install libwayland-dev libxkbcommon-dev xorg-dev
 #sudo apt install unzip
 
 # Variables
-version=3.4
+# Default version
+DEFAULT_VERSION=3.4
+# Use provided version or default
+VERSION=${1:-$DEFAULT_VERSION}
+
+echo "Installing GLFW version: $VERSION"
 
 # Download
-wget -O glfw.zip https://github.com/glfw/glfw/archive/refs/tags/$version.zip
+wget -O glfw.zip https://github.com/glfw/glfw/archive/refs/tags/$VERSION.zip
 unzip glfw.zip
 
 # cmake
-cd glfw-$version
+cd glfw-$VERSION
 mkdir build
 cd build
 cmake \
@@ -33,7 +38,7 @@ sudo ldconfig
 
 #remove
 cd ../..
-rm -rf glfw-$version
+rm -rf glfw-$VERSION
 rm glfw.zip
 
 
