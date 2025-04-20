@@ -1,3 +1,4 @@
+#!/bin/bash
 # Check if glad is installed
 if pkg-config --exists glad; then
     echo "glad is already installed."
@@ -23,13 +24,13 @@ glad --generator c --out-path glad/ --api gl=$VERSION --extensions "" --profile 
 
 # Install
 SRC_DIR=$(pwd)/glad
-mkdir build
+mkdir -p build
 cd build
 echo "==========Debuging=========="
-echo $PARENT_DIR
-echo $SRC_DIR
-echo $(which source)
-echo $(pwd)
+echo "PARENT_DIR: $PARENT_DIR"
+echo "SRC_DIR: $SRC_DIR"
+echo "Current Shell: $SHELL"
+echo "Current Dir: $(pwd)"
 echo "==========end of debuging=========="
 cmake $PARENT_DIR -DCMAKE_INSTALL_DATAROOTDIR=lib/cmake -DDIR=$SRC_DIR
 cmake --build .
