@@ -9,7 +9,22 @@ DEFAULT_VERSION=3.12.0
 # Use provided version or default
 VERSION=${1:-$DEFAULT_VERSION}
 
-echo "Installing JSON version: $VERSION"
+# Verify version format
+if ! [[ $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo "Error: Version must be in format X.Y.Z (e.g., 3.12.0)"
+    exit 1
+fi
+
+# Get the default CMake install prefix
+DEFAULT_INSTALL_PREFIX=$(cmake -E capabilities | grep -o '"installPath":"[^"]*"' | awk -F '"' '{print $4}')
+# If empty, fall back to /usr/local
+if [ -z "$DEFAULT_INSTALL_PREFIX" ]; then
+    DEFAULT_INSTALL_PREFIX="/usr/local"
+fi
+# Use provided install prefix or default
+INSTALL_PREFIX=${2:-$DEFAULT_INSTALL_PREFIX}
+
+echo "Installing JSON version: $VERSION with install prefix: $INSTALL_PREFIX"
 
 # Download
 wget -O json.zip https://github.com/nlohmann/json/archive/refs/tags/v$VERSION.zip
@@ -30,6 +45,7 @@ mkdir -p build
 cd build
 cmake \
     -DCMAKE_INSTALL_DATAROOTDIR=lib \
+    -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX \
     ..
 
 #build
@@ -39,8 +55,9 @@ time make -j8
 echo "[entering make install]"
 sudo make install
 
-INSTALL_PREFIX=$(cmake -L .. | grep "CMAKE_INSTALL_PREFIX" | awk -F "=" '{print $2}')
-sudo mv $INSTALL_PREFIX/include/nlohmann $INSTALL_PREFIX/include/json
+# Get the actual install prefix used by CMake
+CMAKE_USED_PREFIX=$(cmake -L .. | grep "CMAKE_INSTALL_PREFIX" | awk -F "=" '{print $2}' | xargs)
+sudo mv $CMAKE_USED_PREFIX/include/nlohmann $CMAKE_USED_PREFIX/include/json
 
 #remove
 cd ../..

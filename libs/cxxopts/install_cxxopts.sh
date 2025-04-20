@@ -9,7 +9,22 @@ DEFAULT_VERSION=3.2.0
 # Use provided version or default
 VERSION=${1:-$DEFAULT_VERSION}
 
-echo "Installing cxxopts version: $VERSION"
+# Verify version format
+if ! [[ $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo "Error: Version must be in format X.Y.Z (e.g., 3.2.0)"
+    exit 1
+fi
+
+# Get the default CMake install prefix
+DEFAULT_INSTALL_PREFIX=$(cmake -E capabilities | grep -o '"installPath":"[^"]*"' | awk -F '"' '{print $4}')
+# If empty, fall back to /usr/local
+if [ -z "$DEFAULT_INSTALL_PREFIX" ]; then
+    DEFAULT_INSTALL_PREFIX="/usr/local"
+fi
+# Use provided install prefix or default
+INSTALL_PREFIX=${2:-$DEFAULT_INSTALL_PREFIX}
+
+echo "Installing cxxopts version: $VERSION with install prefix: $INSTALL_PREFIX"
 
 # Download
 wget -O cxxopts.zip https://github.com/jarro2783/cxxopts/archive/refs/tags/v$VERSION.zip
@@ -30,6 +45,7 @@ mkdir -p build
 cd build
 cmake \
     -DCMAKE_INSTALL_DATAROOTDIR=lib/cmake \
+    -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX \
     ..
 
 #build

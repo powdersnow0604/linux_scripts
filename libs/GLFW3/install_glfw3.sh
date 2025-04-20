@@ -10,7 +10,22 @@ DEFAULT_VERSION=3.4
 # Use provided version or default
 VERSION=${1:-$DEFAULT_VERSION}
 
-echo "Installing GLFW version: $VERSION"
+# Verify version format
+if ! [[ $VERSION =~ ^[0-9]+\.[0-9]+$ ]]; then
+    echo "Error: Version must be in format X.Y (e.g., 3.4)"
+    exit 1
+fi
+
+# Get the default CMake install prefix
+DEFAULT_INSTALL_PREFIX=$(cmake -E capabilities | grep -o '"installPath":"[^"]*"' | awk -F '"' '{print $4}')
+# If empty, fall back to /usr/local
+if [ -z "$DEFAULT_INSTALL_PREFIX" ]; then
+    DEFAULT_INSTALL_PREFIX="/usr/local"
+fi
+# Use provided install prefix or default
+INSTALL_PREFIX=${2:-$DEFAULT_INSTALL_PREFIX}
+
+echo "Installing GLFW version: $VERSION with install prefix: $INSTALL_PREFIX"
 
 # Download
 wget -O glfw.zip https://github.com/glfw/glfw/archive/refs/tags/$VERSION.zip
@@ -35,6 +50,7 @@ cmake \
     -DGLFW_BUILD_TESTS=OFF \
     -DGLFW_BUILD_DOCS=OFF \
     -DCMAKE_INSTALL_DATAROOTDIR=lib/cmake \
+    -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX \
     ..
 
 #build

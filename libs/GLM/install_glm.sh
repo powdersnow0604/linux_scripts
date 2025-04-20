@@ -9,7 +9,22 @@ DEFAULT_VERSION=1.0.1
 # Use provided version or default
 VERSION=${1:-$DEFAULT_VERSION}
 
-echo "Installing GLM version: $VERSION"
+# Verify version format
+if ! [[ $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo "Error: Version must be in format X.Y.Z (e.g., 1.0.1)"
+    exit 1
+fi
+
+# Get the default CMake install prefix
+DEFAULT_INSTALL_PREFIX=$(cmake -E capabilities | grep -o '"installPath":"[^"]*"' | awk -F '"' '{print $4}')
+# If empty, fall back to /usr/local
+if [ -z "$DEFAULT_INSTALL_PREFIX" ]; then
+    DEFAULT_INSTALL_PREFIX="/usr/local"
+fi
+# Use provided install prefix or default
+INSTALL_PREFIX=${2:-$DEFAULT_INSTALL_PREFIX}
+
+echo "Installing GLM version: $VERSION with install prefix: $INSTALL_PREFIX"
 
 # Download
 wget -O glm.zip https://github.com/g-truc/glm/archive/refs/tags/$VERSION.zip
@@ -21,6 +36,7 @@ cmake \
     -DGLM_BUILD_TESTS=OFF \
     -DBUILD_SHARED_LIBS=ON \
     -DCMAKE_INSTALL_DATAROOTDIR=lib/cmake \
+    -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX \
     -B build .
 cmake --build build -- all
 sudo cmake --build build -- install
@@ -31,7 +47,7 @@ rm -rf glm-$VERSION
 rm glm.zip
 
 # Wrting pkg-config file
-PREFIX="/usr/local"
+PREFIX="$INSTALL_PREFIX"
 EXEC_PREFIX="${PREFIX}"
 LIBDIR="${PREFIX}/lib"
 INCLUDEDIR="${PREFIX}/include"
