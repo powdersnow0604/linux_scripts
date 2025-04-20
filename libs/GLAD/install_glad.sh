@@ -30,6 +30,7 @@ cmake --build .
 sudo cmake --install .
 
 # Remove
+cd ..
 rm -rf glad_env
 rm -rf build
 rm -rf glad
