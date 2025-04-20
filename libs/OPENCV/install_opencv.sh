@@ -1,3 +1,7 @@
+# Install prerequisite
+PARENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+$PARENT_DIR/install_prerequisite.sh
+
 #variables
 # Default version
 DEFAULT_OPENCV_VERSION=4.9.0

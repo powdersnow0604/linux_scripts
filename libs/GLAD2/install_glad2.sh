@@ -14,7 +14,6 @@ echo "Installing GLAD2 with OpenGL version: $VERSION"
 
 # Get the parent directory of the script
 PARENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-echo $PARENT_DIR
 
 # Install
 python3 -m venv glad_env
@@ -24,7 +23,6 @@ glad  --out-path glad/ --api gl:core=$VERSION --extensoins "" c
 
 # Install
 SRC_DIR=$(pwd)/glad
-echo "src_dir: $SRC_DIR"
 mkdir build
 cd build
 cmake $PARENT_DIR -DCMAKE_INSTALL_DATAROOTDIR=lib/cmake -DDIR=$SRC_DIR
