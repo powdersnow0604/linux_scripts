@@ -9,6 +9,12 @@ DEFAULT_VERSION=3.2.0
 # Use provided version or default
 VERSION=${1:-$DEFAULT_VERSION}
 
+# If version is 0, use default
+if [ "$VERSION" = "0" ]; then
+    VERSION=$DEFAULT_VERSION
+    echo "Using default version: $VERSION"
+fi
+
 # Verify version format
 if ! [[ $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
     echo "Error: Version must be in format X.Y.Z (e.g., 3.2.0)"

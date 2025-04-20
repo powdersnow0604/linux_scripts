@@ -10,6 +10,12 @@ DEFAULT_OPENCV_VERSION=4.9.0
 # Use provided version or default
 OPENCV_VERSION=${1:-$DEFAULT_OPENCV_VERSION}
 
+# If version is 0, use default
+if [ "$OPENCV_VERSION" = "0" ]; then
+    OPENCV_VERSION=$DEFAULT_OPENCV_VERSION
+    echo "Using default OpenCV version: $OPENCV_VERSION"
+fi
+
 # Verify OpenCV version format
 if ! [[ $OPENCV_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
     echo "Error: OpenCV version must be in format X.Y.Z (e.g., 4.9.0)"
@@ -19,6 +25,12 @@ fi
 DEFAULT_CUDNN_VERSION=8.9.6
 # Use provided version or default
 CUDNN_VERSION=${2:-$DEFAULT_CUDNN_VERSION}
+
+# If version is 0, use default
+if [ "$CUDNN_VERSION" = "0" ]; then
+    CUDNN_VERSION=$DEFAULT_CUDNN_VERSION
+    echo "Using default CUDNN version: $CUDNN_VERSION"
+fi
 
 # Verify CUDNN version format
 if ! [[ $CUDNN_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
@@ -33,6 +45,12 @@ PYTHON_DIST_PACKAGE_PATH=${3:-$DEFAULT_PYTHON_DIST_PACKAGE_PATH}
 DEFAULT_CUDA_CC=8.9
 # Use provided version or default
 CUDA_CC=${4:-$DEFAULT_CUDA_CC}
+
+# If version is 0, use default
+if [ "$CUDA_CC" = "0" ]; then
+    CUDA_CC=$DEFAULT_CUDA_CC
+    echo "Using default CUDA compute capability: $CUDA_CC"
+fi
 
 # Verify CUDA CC format
 if ! [[ $CUDA_CC =~ ^[0-9]+\.[0-9]+$ ]]; then
