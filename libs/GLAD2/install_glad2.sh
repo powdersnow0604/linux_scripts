@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# Check if glad is installed
-if pkg-config --exists glad; then
-    echo "glad is already installed."
-    exit 1
-fi
-
 # Variables
 # Default version
 DEFAULT_VERSION=3.3
