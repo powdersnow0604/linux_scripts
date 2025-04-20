@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Install prerequisite
 PARENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 $PARENT_DIR/install_prerequisite.sh
@@ -30,7 +32,16 @@ unzip opencv.zip
 wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/$OPENCV_VERSION.zip
 unzip opencv_contrib.zip
 cd opencv-$OPENCV_VERSION
-mkdir build
+
+# Check if build directory exists
+if [ -d build ]; then
+    read -p "Build directory already exists. Do you want to delete it? (y/n): " answer
+    if [ "$answer" == "y" ] || [ "$answer" == "Y" ]; then
+        rm -rf build
+    fi
+fi
+mkdir -p build
+
 cd build
 
 #cmake

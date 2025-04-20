@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Check if glad is installed
 if pkg-config --exists glad; then
     echo "glad is already installed."
@@ -23,7 +25,16 @@ glad  --out-path glad/ --api gl:core=$VERSION --extensoins "" c
 
 # Install
 SRC_DIR=$(pwd)/glad
-mkdir build
+
+# Check if build directory exists
+if [ -d build ]; then
+    read -p "Build directory already exists. Do you want to delete it? (y/n): " answer
+    if [ "$answer" == "y" ] || [ "$answer" == "Y" ]; then
+        rm -rf build
+    fi
+fi
+mkdir -p build
+
 cd build
 cmake $PARENT_DIR -DCMAKE_INSTALL_DATAROOTDIR=lib/cmake -DDIR=$SRC_DIR
 cmake --build .

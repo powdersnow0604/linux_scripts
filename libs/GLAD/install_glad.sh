@@ -24,14 +24,12 @@ glad --generator c --out-path glad/ --api gl=$VERSION --extensions "" --profile 
 
 # Install
 SRC_DIR=$(pwd)/glad
+if [ -d build ]; then
+    rm -rf build
+fi
 mkdir -p build
 cd build
-echo "==========Debuging=========="
-echo "PARENT_DIR: $PARENT_DIR"
-echo "SRC_DIR: $SRC_DIR"
-echo "Current Shell: $SHELL"
-echo "Current Dir: $(pwd)"
-echo "==========end of debuging=========="
+
 cmake $PARENT_DIR -DCMAKE_INSTALL_DATAROOTDIR=lib/cmake -DDIR=$SRC_DIR
 cmake --build .
 sudo cmake --install .

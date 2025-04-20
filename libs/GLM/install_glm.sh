@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Prerequisite
 #sudo apt install unzip
 
