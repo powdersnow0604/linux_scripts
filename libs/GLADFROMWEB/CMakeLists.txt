@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.14)
-project(glad LANGUAGES C)
+
+# Accept GLAD_VERSION from command line or default to 0.1.0
+if(NOT DEFINED GLAD_VERSION)
+    set(GLAD_VERSION "0.1.0" CACHE STRING "GLAD library version")
+endif()
+
+project(glad LANGUAGES C VERSION ${GLAD_VERSION})
 
 # 라이브러리 만들기
 add_library(glad SHARED
@@ -42,5 +48,26 @@ configure_package_config_file(
 install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/gladConfig.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/glad
+)
+
+# Add pkg-config support
+set(PKG_CONFIG_FILE "${CMAKE_CURRENT_BINARY_DIR}/glad.pc")
+set(PKG_CONFIG_CONTENT "prefix=${CMAKE_INSTALL_PREFIX}
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+includedir=\${prefix}/include
+
+Name: glad
+Description: Multi-Language GL/GLES/EGL/GLX/WGL Loader-Generator based on the official specs
+Version: ${PROJECT_VERSION}
+Libs: -L\${libdir} -lglad
+Cflags: -I\${includedir}
+")
+
+file(WRITE "${PKG_CONFIG_FILE}" "${PKG_CONFIG_CONTENT}")
+
+install(FILES
+    "${PKG_CONFIG_FILE}"
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )
 

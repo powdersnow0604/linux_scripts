@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.14)
-project(glad LANGUAGES C)
+
+# Accept GLAD_VERSION from command line or default to 0.1.0
+if(NOT DEFINED GLAD_VERSION)
+    set(GLAD_VERSION "0.1.0" CACHE STRING "GLAD library version")
+endif()
+
+project(glad LANGUAGES C VERSION ${GLAD_VERSION})
 
 # src directory
 if(NOT DEFINED DIR)
